@@ -4,6 +4,7 @@ import io.github.biojj.exception.UserExistingException;
 import io.github.biojj.modules.user.model.User;
 import io.github.biojj.modules.user.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,12 +21,13 @@ public class UserController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void salvar(@RequestBody @Valid User user) {
+    public ResponseEntity<String> salvar(@RequestBody @Valid User user) {
         try {
             userService.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (UserExistingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
 }
