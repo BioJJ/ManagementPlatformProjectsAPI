@@ -1,7 +1,7 @@
 package io.github.biojj.exception;
 
-public class UserExistingException extends RuntimeException{
-    public UserExistingException( String login ){
-        super("Usuário já cadastrado para o login " + login);
+public class EmailExistingException extends RuntimeException {
+    public EmailExistingException(String email) {
+        super("Cliente já cadastrado para o email " + email);
     }
 }
