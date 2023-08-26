@@ -1,7 +1,7 @@
-package io.github.biojj.modules.client.controller;
+package io.github.biojj.modules.project.controller;
 
-import io.github.biojj.modules.client.model.Client;
-import io.github.biojj.modules.client.services.ClientService;
+import io.github.biojj.modules.project.model.Project;
+import io.github.biojj.modules.project.services.ProjectService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/client")
-public class ClientController {
+@RequestMapping("/api/project")
+public class ProjectController {
 
-    private final ClientService service;
+    private final ProjectService service;
 
-    public ClientController(ClientService service) {
+    public ProjectController(ProjectService service) {
         this.service = service;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client save(@RequestBody @Valid Client client) {
+    public Project save(@RequestBody @Valid Project client) {
         return service.save(client);
     }
 
     @GetMapping
-    public Page<Client> findAll(@RequestParam(defaultValue = "0") int page,
+    public Page<Project> findAll(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int size,
                                 @RequestParam(defaultValue = "id") String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
@@ -36,7 +36,7 @@ public class ClientController {
     }
 
     @GetMapping("{id}")
-    public Client findById(@PathVariable Long id) {
+    public Project findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
@@ -49,7 +49,7 @@ public class ClientController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable Long id, @RequestBody @Valid Client clientAtualizado) {
+    public void atualizar(@PathVariable Long id, @RequestBody @Valid Project clientAtualizado) {
         service.update(id, clientAtualizado);
     }
 

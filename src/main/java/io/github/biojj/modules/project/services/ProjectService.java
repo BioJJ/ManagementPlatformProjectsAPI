@@ -1,9 +1,8 @@
-package io.github.biojj.modules.client.services;
+package io.github.biojj.modules.project.services;
 
 
-import io.github.biojj.exception.EmailExistingException;
-import io.github.biojj.modules.client.model.Client;
-import io.github.biojj.modules.client.repository.ProjectRepository;
+import io.github.biojj.modules.project.model.Project;
+import io.github.biojj.modules.project.repository.ProjectRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -11,56 +10,53 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class ClientService {
+public class ProjectService {
 
-    private final ProjectRepository clientRepository;
+    private final ProjectRepository projectRepository;
 
-    public ClientService(ProjectRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public ProjectService(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
-    public Client save(Client client) {
-        boolean exists = clientRepository.existsByEmail(client.getEmail());
+    public Project save(Project project) {
 
-        if (exists) {
-            throw new EmailExistingException(client.getEmail());
-        }
-
-        return clientRepository.save(client);
+        return projectRepository.save(project);
     }
 
-    public Page<Client> findAll(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+    public Page<Project> findAll(Pageable pageable) {
+        return projectRepository.findAll(pageable);
     }
 
-    public Client findById(Long id) {
-        return clientRepository
+    public Project findById(Long id) {
+        return projectRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "project não encontrado"));
     }
 
     public void delete(Long id) {
-        clientRepository
+        projectRepository
                 .findById(id)
-                .map(client -> {
-                    clientRepository.delete(client);
+                .map(project -> {
+                    projectRepository.delete(project);
                     return Void.TYPE;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "project não encontrado"));
     }
 
     public void update(Long id,
-                       Client clientDTO) {
+                       Project projectDTO) {
 
-        clientRepository
+        projectRepository
                 .findById(id)
-                .map(client -> {
-                    client.setName(clientDTO.getName());
-                    client.setEmail(clientDTO.getEmail());
+                .map(project -> {
+                    project.setProjectName(projectDTO.getProjectName());
+                    project.setStartDate(projectDTO.getStartDate());
+                    project.setExpectedEndDate(projectDTO.getExpectedEndDate());
+                    project.setProjectStatus(projectDTO.getProjectStatus());
 
-                    return clientRepository.save(client);
+                    return projectRepository.save(project);
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "project não encontrado"));
     }
 
 }

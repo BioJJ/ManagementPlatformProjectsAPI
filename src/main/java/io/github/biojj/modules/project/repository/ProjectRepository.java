@@ -1,12 +1,11 @@
-package io.github.biojj.modules.client.repository;
+package io.github.biojj.modules.project.repository;
 
-import io.github.biojj.modules.client.model.Project;
+import io.github.biojj.modules.project.model.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface ClientRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    boolean existsByEmail(String email);
 }
