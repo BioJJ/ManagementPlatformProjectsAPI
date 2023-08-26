@@ -1,6 +1,16 @@
 package io.github.biojj.modules.user.enums;
 
 public enum ERole {
-    ROLE_USER,
-    ROLE_ADMIN
+    USER("USER"),
+    ADMIN("ADMIN");
+
+    private final String role;
+
+    ERole(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
 }
