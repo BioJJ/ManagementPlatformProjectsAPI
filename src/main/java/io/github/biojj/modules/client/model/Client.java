@@ -1,2 +1,4 @@
-package io.github.biojj.modules.client.model;public class Client {
+package io.github.biojj.modules.client.model;
+
+public class Client {
 }
