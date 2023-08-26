@@ -1,5 +1,7 @@
 package io.github.biojj.modules.activity.controller;
 
+import io.github.biojj.modules.activity.model.Activity;
+import io.github.biojj.modules.activity.services.ActivityService;
 import io.github.biojj.modules.project.model.Project;
 import io.github.biojj.modules.project.services.ProjectService;
 import org.springframework.data.domain.Page;
@@ -12,31 +14,31 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/project")
+@RequestMapping("/api/activity")
 public class ActivityController {
 
-    private final ProjectService service;
+    private final ActivityService service;
 
-    public ActivityController(ProjectService service) {
+    public ActivityController(ActivityService service) {
         this.service = service;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Project save(@RequestBody @Valid Project client) {
-        return service.save(client);
+    public Activity save(@RequestBody @Valid Activity actiActivity) {
+        return service.save(actiActivity);
     }
 
     @GetMapping
-    public Page<Project> findAll(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "10") int size,
-                                @RequestParam(defaultValue = "id") String sortBy) {
+    public Page<Activity> findAll(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  @RequestParam(defaultValue = "id") String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return service.findAll(pageable);
     }
 
     @GetMapping("{id}")
-    public Project findById(@PathVariable Long id) {
+    public Activity findById(@PathVariable Long id) {
         return service.findById(id);
     }
 
@@ -49,8 +51,8 @@ public class ActivityController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable Long id, @RequestBody @Valid Project clientAtualizado) {
-        service.update(id, clientAtualizado);
+    public Activity atualizar(@PathVariable Long id, @RequestBody @Valid Activity actiActivityAtualizado) {
+        return service.update(id, actiActivityAtualizado);
     }
 
 

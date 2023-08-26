@@ -1,6 +1,7 @@
-package io.github.biojj.modules.project.model;
+package io.github.biojj.modules.activity.model;
 
 import io.github.biojj.modules.client.model.Client;
+import io.github.biojj.modules.project.model.Project;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "activity")
+@Table(name = "activities")
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,10 +23,6 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "O nome do projeto é obrigatório")
-    @Column(name = "project_name", nullable = false)
-    private String projectName;
 
     @NotNull(message = "A data de início é obrigatória")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -37,9 +34,17 @@ public class Activity {
     @Column(name = "expected_end_date", nullable = false)
     private LocalDate expectedEndDate;
 
-    @NotBlank(message = "O status do projeto é obrigatório")
+    @NotBlank(message = "O status da atividade é obrigatório")
     @Column(name = "project_status", nullable = false)
-    private String projectStatus;
+    private String status;
+
+    @NotBlank(message = "A descrição da atividade é obrigatório")
+    @Column(nullable = false)
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @ManyToOne
     @JoinColumn(name = "client_id")

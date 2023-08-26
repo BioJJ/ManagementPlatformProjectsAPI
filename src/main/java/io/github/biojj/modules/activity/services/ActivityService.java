@@ -1,8 +1,8 @@
 package io.github.biojj.modules.activity.services;
 
 
-import io.github.biojj.modules.project.model.Project;
-import io.github.biojj.modules.project.repository.ProjectRepository;
+import io.github.biojj.modules.activity.model.Activity;
+import io.github.biojj.modules.activity.repository.ActivityRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -12,51 +12,51 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class ActivityService {
 
-    private final ProjectRepository projectRepository;
+    private final ActivityRepository activityRepository;
 
-    public ActivityService(ProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
+    public ActivityService(ActivityRepository activityRepository) {
+        this.activityRepository = activityRepository;
     }
 
-    public Project save(Project project) {
+    public Activity save(Activity actiActivity) {
 
-        return projectRepository.save(project);
+        return activityRepository.save(actiActivity);
     }
 
-    public Page<Project> findAll(Pageable pageable) {
-        return projectRepository.findAll(pageable);
+    public Page<Activity> findAll(Pageable pageable) {
+        return activityRepository.findAll(pageable);
     }
 
-    public Project findById(Long id) {
-        return projectRepository
+    public Activity findById(Long id) {
+        return activityRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "project não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "actiActivity não encontrado"));
     }
 
     public void delete(Long id) {
-        projectRepository
+        activityRepository
                 .findById(id)
-                .map(project -> {
-                    projectRepository.delete(project);
+                .map(actiActivity -> {
+                    activityRepository.delete(actiActivity);
                     return Void.TYPE;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "project não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "actiActivity não encontrado"));
     }
 
-    public void update(Long id,
-                       Project projectDTO) {
+    public Activity update(Long id,
+                           Activity actiActivityDTO) {
 
-        projectRepository
+        return activityRepository
                 .findById(id)
-                .map(project -> {
-                    project.setProjectName(projectDTO.getProjectName());
-                    project.setStartDate(projectDTO.getStartDate());
-                    project.setExpectedEndDate(projectDTO.getExpectedEndDate());
-                    project.setProjectStatus(projectDTO.getProjectStatus());
+                .map(actiActivity -> {
+                    actiActivity.setDescription(actiActivityDTO.getDescription());
+                    actiActivity.setStartDate(actiActivityDTO.getStartDate());
+                    actiActivity.setExpectedEndDate(actiActivityDTO.getExpectedEndDate());
+                    actiActivity.setStatus(actiActivityDTO.getStatus());
 
-                    return projectRepository.save(project);
+                    return activityRepository.save(actiActivity);
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "project não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "actiActivity não encontrado"));
     }
 
 }
