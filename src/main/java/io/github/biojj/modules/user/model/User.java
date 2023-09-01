@@ -1,7 +1,11 @@
 package io.github.biojj.modules.user.model;
 
 import io.github.biojj.modules.user.enums.ERole;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotEmpty;
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +13,9 @@ import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id

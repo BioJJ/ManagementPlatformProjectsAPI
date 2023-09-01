@@ -3,10 +3,16 @@ package io.github.biojj.modules.user.services;
 import io.github.biojj.exception.UserExistingException;
 import io.github.biojj.modules.user.model.User;
 import io.github.biojj.modules.user.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -32,13 +38,15 @@ public class UserService implements UserDetailsService {
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Login não encontrado."));
 
-        return org.springframework.security.core.userdetails.User
-                .builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles("USER")
-                .build()
-                ;
+        Set<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+                .collect(Collectors.toSet());
 
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+        );
     }
+
 }
