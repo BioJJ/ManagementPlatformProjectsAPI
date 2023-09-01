@@ -13,9 +13,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/users").permitAll()
+                .antMatchers("/api/users/register").permitAll()
                 .antMatchers(
-                        "/api/client/**", "/api/project/**", "/api/activity/**"
+                        "/api/client/**", "/api/project/**", "/api/activity/**", "/api/users/**"
                 )
                 .authenticated()
                 .anyRequest().denyAll();

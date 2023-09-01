@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("register")
     public ResponseEntity<String> salvar(@RequestBody @Valid User user) {
         try {
             userService.save(user);
@@ -28,6 +28,11 @@ public class UserController {
         } catch (UserExistingException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
+    }
+
+    @GetMapping("{userName}")
+    public User findById(@PathVariable String userName) {
+        return userService.findById(userName);
     }
 
 }
